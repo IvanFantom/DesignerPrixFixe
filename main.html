@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>[Knockout] DesignerPrixFixe</title>
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>  
+
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.3.1/holder.js"></script>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+</head>
+<body>
+	<div class="container well">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Designer Prix Fixe</div>
+
+			<table class="table table-hover table-condensed ">
+				<thead>
+					<tr>
+						<th><input type="checkbox"/></th>
+						<th></th>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Subtotal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="checkbox"/></td>
+						<td><img data-src="holder.js/50x50" alt="..."></td>
+						<td>Dish1</td>
+						<td>100</td>
+						<td><input type="text" value="1"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox"/></td>
+						<td><img data-src="holder.js/50x50" alt="..."></td>
+						<td>Dish2</td>
+						<td>200</td>
+						<td><input type="text" value="1"/></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox"/></td>
+						<td><img data-src="holder.js/50x50" alt="..."></td>
+						<td>Dish3</td>
+						<td>300</td>
+						<td><input type="text" value="1"/></td>
+						<td></td>
+					</tr>
+				</tbody>   		
+			</table>
+
+			<div class="panel-footer">
+				<div class="pull-right">
+					Total: <span>1</span> $
+					<button class="btn btn-primary">Submit</button>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="scripts/main.js"></script>
+</body>
+</html>
