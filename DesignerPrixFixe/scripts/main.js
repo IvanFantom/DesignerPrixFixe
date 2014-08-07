@@ -1,10 +1,6 @@
 (function ($) {
     'use strict';
 
-    function formatCurrency(value) {
-        return "$" + value.toFixed(2);
-    }
-
     function Dish(data) {
         var self = this;
 
@@ -14,9 +10,9 @@
         self.price = ko.observable();
         self.quantity = ko.observable();
         self.subTotal = ko.computed(function () {
-            return self.price() * parseInt("0" + self.quantity(), 10);
+            return self.price() * parseInt('0' + self.quantity(), 10);
         }, this);
-
+        
         ko.mapping.fromJS(data, {}, this);
     }
 
@@ -34,6 +30,10 @@
 
             return total;
         }, this);
+
+        self.formatCurrency = function (value) {
+            return '$ ' + value.toFixed(2);
+        }
         self.toggleAllCheckboxes = function() {
             var all = self.isCheckedAll();
             ko.utils.arrayForEach(self.dishes(), function (dish) {
