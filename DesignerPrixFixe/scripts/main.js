@@ -5,39 +5,60 @@
         return "$" + value.toFixed(2);
     }
 
-    var DishViewModel = function () {
+    function Dish(data) {
         var self = this;
 
-        self.dishes = [
-			new Dish({ imageSrc: "holder.js/50x50", name: "Dish1", price: "100" }),
-			new Dish({ imageSrc: "holder.js/50x50", name: "Dish2", price: "200" }),
-			{ imageSrc: "holder.js/50x50", name: "Dish3", price: "300" },
-			{ imageSrc: "holder.js/50x50", name: "Dish4", price: "400" },
-			{ imageSrc: "holder.js/50x50", name: "Dish5", price: "500" },
-			{ imageSrc: "holder.js/50x50", name: "Dish6", price: "600" },
-			{ imageSrc: "holder.js/50x50", name: "Dish7", price: "700" },
-			{ imageSrc: "holder.js/50x50", name: "Dish8", price: "800" },
-			{ imageSrc: "holder.js/50x50", name: "Dish9", price: "900" },
-			{ imageSrc: "holder.js/50x50", name: "Dish10", price: "1000" },
-			{ imageSrc: "holder.js/50x50", name: "Dish11", price: "1100" },
-			{ imageSrc: "holder.js/50x50", name: "Dish12", price: "1200" },
-			{ imageSrc: "holder.js/50x50", name: "Dish13", price: "1300" },
-			{ imageSrc: "holder.js/50x50", name: "Dish14", price: "1400" },
-			{ imageSrc: "holder.js/50x50", name: "Dish15", price: "1500" }
-        ];
-    }
-
-    var Dish = function () {
-        var self = this;
-
+        self.isChecked = ko.observable(false);
         self.imageSrc = ko.observable();
         self.name = ko.observable();
         self.price = ko.observable();
-        self.quantity = ko.observable(1);
+        self.quantity = ko.observable();
         self.subTotal = ko.computed(function () {
-            return self.name() ? self.price() * parseInt("0" + self.quantity(), 10) : 0;
-        });
+            return self.price() * parseInt("0" + self.quantity(), 10);
+        }, this);
+
+        ko.mapping.fromJS(data, {}, this);
     }
 
-    ko.applyBindings(new DishViewModel());
+    function DishViewModel() {
+        var self = this;
+
+        self.isCheckedAll = ko.observable(false);
+        self.dishes = ko.observableArray();
+        self.total = ko.computed(function () {
+            var total = 0;
+
+            ko.utils.arrayForEach(self.dishes(), function (dish) {
+                total += dish.isChecked() ? dish.subTotal() : 0;
+            });
+
+            return total;
+        }, this);
+        self.toggleAllCheckboxes = function() {
+            var all = self.isCheckedAll();
+            ko.utils.arrayForEach(self.dishes(), function (dish) {
+                dish.isChecked(all);
+            });
+            return true;
+        }
+    }
+
+    var viewModel = new DishViewModel();
+    var mapping = {
+        'dishes': {
+            create: function (options) {
+                return new Dish(options.data);
+            }
+        }
+    }
+
+    $.ajax({
+        url: 'scripts/ajax/data.json',
+        success: function (data) {
+            ko.mapping.fromJSON(data, mapping, viewModel);
+        },
+        async: false
+    });   
+
+    ko.applyBindings(viewModel);
 })(jQuery);
