@@ -1,7 +1,36 @@
 (function ($) {
     'use strict';
 
-    function Dish(data) {
+    ko.bindingHandlers.bsShowModal = {
+        init: function (element, valueAccessor) {
+        },
+        update: function (element, valueAccessor) {
+            var value = valueAccessor();
+
+            if (ko.utils.unwrapObservable(value)) {
+                $(element).modal('show');
+
+                $('input', element).focus();
+            }
+            else {
+                $(element).modal('hide');
+            }
+        }
+    };
+
+    function ModalViewModel() {
+        var self = this;
+
+        self.modal = ko.observable(false);
+        self.showModal = function () {
+            self.modal(true);
+        };
+        self.hideModal = function () {
+            self.modal(false);
+        }
+    };
+
+    function DishViewModel(data) {
         var self = this;
 
         self.isChecked = ko.observable(false);
@@ -12,15 +41,25 @@
         self.subTotal = ko.computed(function () {
             return self.price() * parseInt('0' + self.quantity(), 10);
         }, this);
-        
+
         ko.mapping.fromJS(data, {}, this);
     }
 
-    function DishViewModel() {
+    function AppViewModel() {
         var self = this;
 
-        self.isCheckedAll = ko.observable(false);
         self.dishes = ko.observableArray();
+        self.modal = ko.observable(new ModalViewModel());
+        self.isAnyChecked = ko.computed(function () {
+            for (var i = 0; i < self.dishes().length; i++) {
+                if (self.dishes()[i].isChecked()) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+        self.isAllChecked = ko.observable(false);
         self.total = ko.computed(function () {
             var total = 0;
 
@@ -34,20 +73,28 @@
         self.formatCurrency = function (value) {
             return '$ ' + value.toFixed(2);
         }
-        self.toggleAllCheckboxes = function() {
-            var all = self.isCheckedAll();
+        self.toggleAllCheckboxes = function () {
+            var all = self.isAllChecked();
             ko.utils.arrayForEach(self.dishes(), function (dish) {
                 dish.isChecked(all);
             });
             return true;
         }
+        self.reset = function () {
+            self.isAllChecked(false);
+
+            ko.utils.arrayForEach(self.dishes(), function (dish) {
+                dish.isChecked(false);
+                dish.quantity(1);
+            });
+        }
     }
 
-    var viewModel = new DishViewModel();
+    var appViewModel = new AppViewModel();
     var mapping = {
         'dishes': {
             create: function (options) {
-                return new Dish(options.data);
+                return new DishViewModel(options.data);
             }
         }
     }
@@ -55,10 +102,10 @@
     $.ajax({
         url: 'scripts/ajax/data.json',
         success: function (data) {
-            ko.mapping.fromJSON(data, mapping, viewModel);
+            ko.mapping.fromJSON(data, mapping, appViewModel);
         },
         async: false
-    });   
+    });
 
-    ko.applyBindings(viewModel);
+    ko.applyBindings(appViewModel);
 })(jQuery);
