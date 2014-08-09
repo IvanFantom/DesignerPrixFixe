@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     ko.bindingHandlers.bsShowModal = {
@@ -98,14 +98,8 @@
             }
         }
     }
-
-    $.ajax({
-        url: 'scripts/ajax/data.json',
-        success: function (data) {
-            ko.mapping.fromJSON(data, mapping, appViewModel);
-        },
-        async: false
-    });
+    
+    ko.mapping.fromJS(data, mapping, appViewModel);
 
     ko.applyBindings(appViewModel);
-})(jQuery);
+})();

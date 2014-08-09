@@ -5,39 +5,40 @@
 
     <link href="css/bootstrap.css" rel="stylesheet" />
 
-    <script src="scripts/jquery-1.10.2.js"></script>
-    <script src="scripts/bootstrap.js"></script>
-    <script src="scripts/holder.js"></script>
+    <script src="scripts/libs/jquery-1.10.2.js"></script>
+    <script src="scripts/libs/bootstrap.js"></script>
+    <script src="scripts/libs/holder.js"></script>
 
-    <script src="scripts/knockout-3.1.0.js"></script>
-    <script src="scripts/knockout.mapping-latest.js"></script>
+    <script src="scripts/libs/knockout-3.1.0.js"></script>
+    <script src="scripts/libs/knockout.mapping-latest.js"></script>
 </head>
-    <body>
-        <!-- ko with: modal -->
-        <div data-bind="bsShowModal: modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button data-bind="click: hideModal" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Confirmation</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button data-bind="click: hideModal" type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        <button data-bind="click: function () { hideModal(); $parent.reset() }" type="button" class="btn btn-primary">Yes</button>
-                    </div>
+<body>
+    <!-- ko with: modal -->
+    <div data-bind="bsShowModal: modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-bind="click: hideModal" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure?</p>
+                </div>
+                <div class="modal-footer">
+                    <button data-bind="click: hideModal" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button data-bind="click: function () { hideModal(); $parent.reset() }" type="button" class="btn btn-primary">Yes</button>
                 </div>
             </div>
         </div>
-        <!-- /ko -->
+    </div>
+    <!-- /ko -->
 
-        <div class="container well">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Designer Prix Fixe</div>
+    <div class="container well">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Designer Prix Fixe</div>
 
-                <table class="table table-hover table-condensed table-responsive">
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
                     <thead>
                         <tr>
                             <th>
@@ -65,19 +66,21 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
 
-                <div class="panel-footer">
-                    Total: <span data-bind="text: formatCurrency(total())"></span>
-                    <div data-bind="if: isAnyChecked()," class="pull-right">
-                        <!-- ko with: modal -->
-                        <button data-bind="click: showModal" class="btn btn-primary">Submit</button>
-                        <!-- /ko -->
-                    </div>
-                    <div class="clearfix"></div>
+            <div class="panel-footer">
+                Total: <span data-bind="text: formatCurrency(total())"></span>
+                <div data-bind="if: isAnyChecked()," class="pull-right">
+                    <!-- ko with: modal -->
+                    <button data-bind="click: showModal" class="btn btn-primary">Submit</button>
+                    <!-- /ko -->
                 </div>
+                <div class="clearfix"></div>
             </div>
         </div>
+    </div>
 
-        <script src="scripts/main.js"></script>
-    </body>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
 </html>

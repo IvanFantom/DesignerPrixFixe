@@ -1,4 +1,4 @@
-{
+var data = {
     "dishes": [
         {
             "imageSrc": "holder.js/50x50",
